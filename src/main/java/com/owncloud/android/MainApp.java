@@ -205,7 +205,7 @@ public class MainApp extends MultiDexApplication implements
     @SuppressFBWarnings("ST")
     @Override
     public void onCreate() {
-        setAppTheme(preferences.getTheme());
+        setAppTheme(preferences.isDarkThemeEnabled());
         super.onCreate();
 
         registerActivityLifecycleCallbacks(new ActivityInjector());

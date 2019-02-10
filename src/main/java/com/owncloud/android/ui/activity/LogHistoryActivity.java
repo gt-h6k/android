@@ -21,15 +21,16 @@ package com.owncloud.android.ui.activity;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.owncloud.android.R;
 import com.owncloud.android.lib.common.utils.Log_OC;
@@ -93,8 +94,10 @@ public class LogHistoryActivity extends ToolbarActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        sendHistoryButton.getBackground().setColorFilter(ThemeUtils.primaryColor(this), PorterDuff.Mode.SRC_ATOP);
+        MaterialButton deleteHistoryButton = findViewById(R.id.deleteLogHistoryButton);
+        MaterialButton sendHistoryButton = findViewById(R.id.sendLogHistoryButton);
+        sendHistoryButton.setBackgroundTintMode(PorterDuff.Mode.SRC_ATOP);
+        sendHistoryButton.setBackgroundTintList(ColorStateList.valueOf(ThemeUtils.primaryColor(this, true)));
         deleteHistoryButton.setTextColor(ThemeUtils.primaryColor(this, true));
 
         if (savedInstanceState == null) {

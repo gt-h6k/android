@@ -58,6 +58,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nextcloud.client.account.UserAccountManager;
 import com.nextcloud.client.di.Injectable;
 import com.nextcloud.client.preferences.AppPreferences;
+import com.nextcloud.client.preferences.PreferenceManager;
 import com.owncloud.android.MainApp;
 import com.owncloud.android.R;
 import com.owncloud.android.lib.common.utils.Log_OC;
@@ -194,6 +195,13 @@ public class ExtendedListFragment extends Fragment implements
         searchView.setOnQueryTextListener(this);
         searchView.setOnCloseListener(this);
         ThemeUtils.themeSearchView(getContext(), searchView, true);
+
+
+        SearchView.SearchAutoComplete theTextArea = (SearchView.SearchAutoComplete) searchView.findViewById(R.id.search_src_text);
+        theTextArea.setHighlightColor(ThemeUtils.primaryAccentColor(getContext()));
+
+//        EditText searchText = searchView.findViewById(R.id.searchView);
+//        searchText.setHighlightColor(ThemeUtils.primaryColor(getContext(), true));
 
         final Handler handler = new Handler();
 
