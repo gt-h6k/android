@@ -294,6 +294,4 @@ public interface AppPreferences {
     boolean isUserIdMigrated();
 
     void setMigratedUserId(boolean value);
-
-    boolean getTheme();
 }
