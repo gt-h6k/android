@@ -602,7 +602,7 @@ public final class ThemeUtils {
             field.setAccessible(true);
             field.set(editor, drawables);
         } catch (Exception e) {
-            Log_OC.e(TAG, "setTextViewCursorColor", e);
+            //Log_OC.e(TAG, "setTextViewCursorColor", e);
         }
     }
 

@@ -61,6 +61,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.nextcloud.client.appinfo.AppInfo;
 import com.nextcloud.client.di.Injectable;
+import com.nextcloud.client.media.PlayerServiceConnection;
 import com.nextcloud.client.network.ConnectivityService;
 import com.nextcloud.client.preferences.AppPreferences;
 import com.owncloud.android.MainApp;
@@ -81,8 +82,6 @@ import com.owncloud.android.lib.resources.files.RestoreFileVersionRemoteOperatio
 import com.owncloud.android.lib.resources.shares.OCShare;
 import com.owncloud.android.lib.resources.shares.ShareType;
 import com.owncloud.android.lib.resources.status.OwnCloudVersion;
-import com.owncloud.android.media.MediaService;
-import com.owncloud.android.media.MediaServiceBinder;
 import com.owncloud.android.operations.CopyFileOperation;
 import com.owncloud.android.operations.CreateFolderOperation;
 import com.owncloud.android.operations.CreateShareViaLinkOperation;
@@ -208,9 +207,6 @@ public class FileDisplayActivity extends FileActivity
 
     private Collection<MenuItem> mDrawerMenuItemstoShowHideList;
 
-    private MediaServiceBinder mMediaServiceBinder;
-    private MediaServiceConnection mMediaServiceConnection;
-
     public static final String KEY_IS_SEARCH_OPEN = "IS_SEARCH_OPEN";
     public static final String KEY_SEARCH_QUERY = "SEARCH_QUERY";
 
@@ -218,6 +214,7 @@ public class FileDisplayActivity extends FileActivity
     private boolean searchOpen;
 
     private SearchView searchView;
+    private PlayerServiceConnection mMediaServiceConnection;
 
     @Inject
     AppPreferences preferences;
@@ -1784,36 +1781,6 @@ public class FileDisplayActivity extends FileActivity
         }
     }
 
-    private MediaServiceConnection newMediaConnection(){
-        return new MediaServiceConnection();
-    }
-
-    /** Defines callbacks for service binding, passed to bindService() */
-    private class MediaServiceConnection implements ServiceConnection {
-
-        @Override
-        public void onServiceConnected(ComponentName component, IBinder service) {
-
-            if (component.equals(new ComponentName(FileDisplayActivity.this, MediaService.class))) {
-                Log_OC.d(TAG, "Media service connected");
-                mMediaServiceBinder = (MediaServiceBinder) service;
-
-            }else {
-                return;
-            }
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName component) {
-            if (component.equals(new ComponentName(FileDisplayActivity.this,
-                    MediaService.class))) {
-                Log_OC.e(TAG, "Media service disconnected");
-                mMediaServiceBinder = null;
-            }
-        }
-    }
-
     /**
      * Updates the view associated to the activity after the finish of some operation over files
      * in the current account.
@@ -1944,15 +1911,8 @@ public class FileDisplayActivity extends FileActivity
         }
     }
 
-    public void setMediaServiceConnection() {
-        mMediaServiceConnection = newMediaConnection();// mediaServiceConnection;
-        bindService(new Intent(this, MediaService.class), mMediaServiceConnection, Context.BIND_AUTO_CREATE);
-    }
-
     private void tryStopPlaying(OCFile file) {
-        if (mMediaServiceConnection != null && MimeTypeUtil.isAudio(file) && mMediaServiceBinder.isPlaying(file)) {
-            mMediaServiceBinder.pause();
-        }
+
     }
 
     /**

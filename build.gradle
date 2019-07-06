@@ -331,6 +331,8 @@ dependencies {
 //    androidJacocoAnt "org.jacoco:org.jacoco.core:${jacocoVersion}"
 //    androidJacocoAnt "org.jacoco:org.jacoco.report:${jacocoVersion}"
 //    androidJacocoAnt "org.jacoco:org.jacoco.agent:${jacocoVersion}"
+
+    implementation "com.github.oxo42:stateless4j:2.5.0"
 }
 
 configurations.all {
